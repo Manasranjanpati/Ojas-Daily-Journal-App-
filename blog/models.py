@@ -16,11 +16,27 @@ class Tag(models.Model):
         return self.name
 
 class Post(models.Model):
+    STATUS_DRAFT = 1
+    STATUS_PUBLISHED = 2
+    STATUS_ARCHIVED = 3
+    STATUSES = (
+        (STATUS_DRAFT, 'Draft'),
+        (STATUS_PUBLISHED, 'Published'),
+        (STATUS_ARCHIVED, 'Archived'),
+    )
+
     title = models.CharField(max_length=100)
     content = RichTextField(null=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=255, unique=True)
+    tags = models.ManyToManyField(Tag, blank=True)
+    created_date = models.DateTimeField(default=timezone.now)
+    updated_date = models.DateTimeField(default=timezone.now)
+    published_date = models.DateTimeField(default=timezone.now)
+    status = models.SmallIntegerField(choices=STATUSES)
 
+    
     def __str__(self):
         return self.title
 
