@@ -1,23 +1,26 @@
 {% extends 'journal_app/base.html' %}
 {% block content %}
 {% if post %}
-<centre ><h1>search results found</h1></centre>
+<centre>
+    <h1>search results found</h1>
+</centre>
 <br>
 {% for post in post %}
 <article class="media content-section">
-  <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-  <div class="media-body">
-    <div class="article-metadata">
-      <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-      <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+    <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content|safe|truncatewords:50 }}</p>
+        <div class="my-2">
+            <!-- <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2> -->
+            <a href="{% url 'post-detail' post.id %}" role="button" class="btn btn-primary">{{ posts.title }} continue
+                reading</a>
+        </div>
     </div>
-    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-    <p class="article-content">{{ post.content|safe|truncatewords:20 }}</p>
-    <div class = "my-2">
-        <!-- <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2> -->
-<a href="{% url 'post-detail' post.id %}" role = "button" class ="btn btn-primary">{{ posts.title }} continue reading</a>
-</div>
-  </div>
 </article>
 {% endfor %}
 <!-- {% for posts in post %}
@@ -38,6 +41,8 @@
 {% endfor %} -->
 
 {% else %}
-<centre><h1>search results not found </h1></centre>
+<centre>
+    <h1>search results not found </h1>
+</centre>
 {% endif %}
 {% endblock %}
