@@ -1,6 +1,6 @@
 {% extends "journal_app/base.html" %}
 {% block content %}
-  <article class="media content-section">
+  <article class="media content-section" >
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
     <div class="media-body">
       <div class="article-metadata">
@@ -14,7 +14,7 @@
         {% endif %}
       </div>
       <h2 class="article-title">{{ object.title }}</h2>
-      <p class="article-content">{{ object.content|safe}}</p>
+      <p class="article-content" >{{ object.content|safe}}</p>
     </div>
   </article>
 {% endblock content %}
