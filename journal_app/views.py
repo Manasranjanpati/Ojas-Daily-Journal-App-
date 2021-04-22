@@ -21,11 +21,8 @@ def search_articles(request):
     if request.method == 'GET':
         search = request.GET.get('search')
         search_title = Post.objects.filter(title__icontains=search)
-        search_date_posted = Post.objects.filter(date_posted__icontains=search)
-        print(search_date_posted)
-        # post = search_title.union(search_date_posted)
         search_author = Post.objects.filter(author__username__icontains=search)
-        post = search_title.union(search_author,search_date_posted)
+        post = search_title.union(search_author,search_title)
         # post = Post.objects.filter(title__icontains=search)
         return render(request,'journal_app/search_articles.html',{'post':post})
 

@@ -16,9 +16,10 @@
         <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
         <p class="article-content">{{ post.content|safe|truncatewords:50 }}</p>
         <div class="my-2">
-            <!-- <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2> -->
+            {% if post.content|length > 100 %}
             <a href="{% url 'post-detail' post.id %}" role="button" class="btn btn-primary">{{ posts.title }} continue
-                reading</a>
+              reading</a>
+            {% endif %}
         </div>
     </div>
 </article>
