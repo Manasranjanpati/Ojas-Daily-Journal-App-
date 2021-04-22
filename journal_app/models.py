@@ -25,7 +25,7 @@ class Post(models.Model):
         (STATUS_ARCHIVED, 'Archived'),
     )
 
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=2000)
     content = RichTextField(null=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
