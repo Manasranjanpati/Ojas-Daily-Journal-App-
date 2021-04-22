@@ -26,7 +26,7 @@ class Post(models.Model):
     )
 
     title = models.CharField(max_length=2000)
-    content = RichTextField(null=True, blank=True)
+    content = RichTextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=255, unique=True)
