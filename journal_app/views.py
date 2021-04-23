@@ -9,7 +9,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post
-
+from django.contrib import messages
 
 def home(request):
     context = {
@@ -17,15 +17,32 @@ def home(request):
     }
     return render(request, 'journal_app/home.html', context)
 
+# def search_articles(request):
+#     if request.method == 'GET':
+#         search = request.GET.get('search')
+#         search_title = Post.objects.filter(title__icontains=search)
+#         search_author = Post.objects.filter(author__username__icontains=search)
+#         post = search_title.union(search_author,search_title)
+#         # post = Post.objects.filter(title__icontains=search)
+#         return render(request,'journal_app/search_articles.html',{'post':post})
+
 def search_articles(request):
     if request.method == 'GET':
         search = request.GET.get('search')
-        search_title = Post.objects.filter(title__icontains=search)
-        search_author = Post.objects.filter(author__username__icontains=search)
-        post = search_title.union(search_author,search_title)
-        # post = Post.objects.filter(title__icontains=search)
+        # print(search)
+        if search:
+            search_title = Post.objects.filter(title__icontains=search)
+            search_author = Post.objects.filter(author__username__icontains=search)
+            post = search_title.union(search_author,search_title)
+            # post = Post.objects.filter(title__icontains=search)
+        
+        else:
+            post = None
+            print(post)
+            # context = {'posts': Post.objects.all()}
+            # messages.error(request, f'please write something to find search results')
+            # return render(request, 'journal_app/home.html', context)
         return render(request,'journal_app/search_articles.html',{'post':post})
-
 
 class PostListView(ListView):
     model = Post
