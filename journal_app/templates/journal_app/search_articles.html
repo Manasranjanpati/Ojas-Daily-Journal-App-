@@ -40,7 +40,10 @@
 </div>
 </div>
 {% endfor %} -->
-
+{% elif post is None %}
+<centre>
+    <h1>please write something to search</h1>
+</centre>
 {% else %}
 <centre>
     <h1>search results not found </h1>
