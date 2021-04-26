@@ -41,7 +41,7 @@
                         {% if user.is_authenticated %}
                         <!--  <a class="nav-item nav-link" href="{% url 'journal_app-home' %}">Home</a> -->
                         <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-                        <a class="nav-item nav-link" href="{% url 'post-create' %}">Contact Us</a>
+                        <a class="nav-item nav-link" href="{% url 'contactus' %}">Contact Us</a>
                         <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>&nbsp;&nbsp&nbsp;&nbsp
                         <a class="nav-item nav-link bg-danger btn-sm" href="{% url 'logout' %}">Logout</a>
                         {% else %}

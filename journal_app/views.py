@@ -8,8 +8,10 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post
 from django.contrib import messages
+from .models import Post
+from .models import Contact
+from django.http import HttpResponse
 
 def home(request):
     context = {
@@ -35,7 +37,6 @@ def search_articles(request):
             search_author = Post.objects.filter(author__username__icontains=search)
             post = search_title.union(search_author,search_title)
             # post = Post.objects.filter(title__icontains=search)
-        
         else:
             post = None
             print(post)
@@ -44,17 +45,29 @@ def search_articles(request):
             # return render(request, 'journal_app/home.html', context)
         return render(request,'journal_app/search_articles.html',{'post':post})
 
+def contactus(request):
+    if request.method=="POST":
+        contact=Contact()
+        name=request.POST.get('name')
+        email=request.POST.get('email')
+        subject=request.POST.get('subject')
+        contact.name=name
+        contact.email=email
+        contact.subject=subject
+        contact.save()
+        return HttpResponse("<h1>THANKS FOR CONTACT US</h1>")
+    return render(request,'journal_app/contactus.html')
+
 class PostListView(ListView):
     model = Post
-    template_name = 'journal_app/home.html' 
+    template_name = 'journal_app/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
 
-
 class UserPostListView(ListView):
     model = Post
-    template_name = 'journal_app/user_posts.html'  
+    template_name = 'journal_app/user_posts.html'
     context_object_name = 'posts'
     paginate_by = 5
 
@@ -62,24 +75,22 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')
 
-
 class PostDetailView(DetailView):
     model = Post
 
-
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content','published_date','tags','created_date','updated_date','slug','status']
+    fields = ['title', 'content','published_date','tags',
+    'created_date','updated_date','slug','status']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
-    success_url = '/' 
+    success_url = '/'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
