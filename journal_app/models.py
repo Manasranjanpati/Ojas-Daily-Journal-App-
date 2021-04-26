@@ -4,14 +4,13 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=100,unique=True)
     slug = models.SlugField(max_length=40,unique=True)
 
     class Meta:
         ordering = ('name',)
-        
+
     def __str__(self):
         return self.name
 
@@ -36,9 +35,16 @@ class Post(models.Model):
     published_date = models.DateTimeField(default=timezone.now)
     status = models.SmallIntegerField(choices=STATUSES)
 
-    
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
+
+class Contact(models.Model):
+    name=models.CharField(max_length=200)
+    email=models.EmailField()
+    subject=models.TextField()
+
+    def __str__(self):
+        return self.name
