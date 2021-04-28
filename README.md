@@ -7,6 +7,7 @@
   - User Registration
   - User Login
   - Sending mail to User
+  - Search Articles by Keywords
   - Change Password
   - Posting Journal(Front End)
   - Getting list of Articles with
